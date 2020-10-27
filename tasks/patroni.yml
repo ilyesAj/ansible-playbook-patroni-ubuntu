@@ -8,23 +8,11 @@
     name: patroni
     state: present
 
-- name: Install consul client package
-  package:
-    name: python3-consul
-    state: present
-  when: dcs == "consul"
-
 - name: Install zookeeper client package
   package:
     name: python3-kazoo
     state: present
   when: dcs == "zookeeper"
-
-- name: Install etcd client package
-  package:
-    name: python3-etcd
-    state: present
-  when: dcs == "etcd"
 
 - name: Install vip-manager package
   package:

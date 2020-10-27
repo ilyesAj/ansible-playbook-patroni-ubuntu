@@ -18,7 +18,6 @@
         - config
 
   tasks:
-    - include: tasks/consul.yml
-      when: dcs == "consul"
+    - include: tasks/zookeeper.yml
     - include: tasks/postgresql.yml
     - include: tasks/patroni.yml
