@@ -12,13 +12,12 @@
   package:
     name: python3-kazoo
     state: present
-  when: dcs == "zookeeper"
 
-- name: Install vip-manager package
-  package:
-    name: vip-manager
-    state: present
-  when: vip is defined and vip != ""
+#- name: Install vip-manager package
+#  package:
+#    name: vip-manager
+#    state: present
+#  when: vip is defined and vip != ""
 
 - name: Deploy patroni DCS config
   template:
@@ -54,12 +53,12 @@
   tags:
     - config
 
-- name: systemctl daemon-reload / start vip-manager
-  systemd:
-    daemon_reload: yes
-    name: vip-manager@{{ postgresql_major_version }}-{{ postgresql_cluster_name }}
-    state: restarted
-    enabled: yes
-  when: vip is defined and vip != ""
-  tags:
-    - config
+#- name: systemctl daemon-reload / start vip-manager
+#  systemd:
+#    daemon_reload: yes
+#    name: vip-manager@{{ postgresql_major_version }}-{{ postgresql_cluster_name }}
+#    state: restarted
+#    enabled: yes
+#  when: vip is defined and vip != ""
+#  tags:
+#    - config
