@@ -1,9 +1,9 @@
 ---
 
-- name: Install zookeeper package
-  package:
-    name: zookeeperd
-    state: present
+#- name: Install zookeeper package
+#  package:
+#    name: zookeeperd
+#    state: present
 
 - name: Disable ipv6
   lineinfile:
