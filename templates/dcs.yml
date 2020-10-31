@@ -1,5 +1,0 @@
-{% if  dcs == 'zookeeper' %}
-zookeeper:
-  hosts:
-    - {{ dcs_server }}:2181
-{% endif %}

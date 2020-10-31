@@ -1,0 +1,86 @@
+scope: "{{postgresql_cluster_name}}-{{postgresql_major_version}}"
+#namespace: "/postgresql-common/"
+name: "{{ansible_hostname}}"
+
+zookeeper:
+  hosts:
+  {% for host in {{ groups['zookeeper'] }} %}
+     - {{ hostvars[host].inventory_hostname }}:{{dcs_port}}
+  {% endfor %}
+
+restapi:
+  listen: 0.0.0.0:8008
+  connect_address: 127.0.0.1:8008
+#  certfile: /etc/ssl/certs/ssl-cert-snakeoil.pem
+#  keyfile: /etc/ssl/private/ssl-cert-snakeoil.key
+#  authentication:
+#    username: username
+#    password: password
+
+# ctl:
+#   insecure: false # Allow connections to SSL sites without certs
+#   certfile: /etc/ssl/certs/ssl-cert-snakeoil.pem
+#   cacert: /etc/ssl/certs/ssl-cacert-snakeoil.pem
+
+
+bootstrap:
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 10
+    maximum_lag_on_failover: 1048576
+    postgresql:
+      use_pg_rewind: true
+      use_slots: true
+      parameters:
+        wal_level: replica
+        hot_standby: "on"
+        wal_keep_segments: 8
+        max_wal_senders: 5
+        max_replication_slots: 5
+        checkpoint_timeout: 30
+
+  initdb:
+  - encoding: UTF8
+
+  pg_hba:
+  - host all {{superuser_username}} all md5
+  - host replication {{patroni_replication_user}} all md5
+  users:
+    {{superuser_username}}:
+      password: {{superuser_password}}
+      options:
+        - createrole
+        - createdb
+    {{patroni_replication_user}}:
+      password: {{patroni_replication_pass}}
+      options:
+        - replication
+
+postgresql:
+  listen: 0.0.0.0:5432
+  connect_address: 127.0.0.1:5432
+  use_unix_socket: true
+  data_dir: {{ postgresql_data_dir_base }}/{{postgresql_major_version}}@/{{postgresql_cluster_name}}
+  bin_dir: /usr/lib/postgresql/{{postgresql_major_version}}/bin
+  config_dir: /etc/postgresql/{{postgresql_major_version}}/{{postgresql_cluster_name}}
+  pgpass: /var/lib/postgresql/{{postgresql_major_version}}-{{postgresql_cluster_name}}.pgpass
+  authentication:
+    replication:
+      username: "{{ patroni_replication_user }}"
+      password: "{{ patroni_replication_pass }}"
+# A superuser role is required in order for Patroni to manage the local
+# Postgres instance.  If the option `use_unix_socket' is set to `true', then
+# specifying an empty password results in no md5 password for the superuser
+# being set and sockets being used for authentication. The `password:' line is
+# nevertheless required.  Note that pg_rewind will not work if no md5 password
+# is set.
+    superuser:
+      username: {{superuser_username}}
+      password: {{superuser_password}}
+  parameters:
+    unix_socket_directories: '/var/run/postgresql/'
+    # Emulate default Debian/Ubuntu logging
+    logging_collector: 'on'
+    log_directory: {{log_directory}}
+    log_filename: 'postgresql-{{postgresql_cluster_name}}-{{postgresql_major_version}}.log'
