@@ -28,14 +28,16 @@
   package:
     name: postgresql-common
     state: present
-
-- name: Disable auto creation of PostgreSQL clusters
-  lineinfile:
-    dest: "/etc/postgresql-common/createcluster.conf"
-    line: "create_main_cluster = false" 
-    regexp: ".*create_main_cluster.*"
   tags:
-    - config
+    - present
+
+    #- name: Disable auto creation of PostgreSQL clusters
+    # lineinfile:
+    # dest: "/etc/postgresql-common/createcluster.conf"
+    #line: "create_main_cluster = false" 
+    #regexp: ".*create_main_cluster.*"
+    # tags:
+    #- config
 
 - name: Install PostgreSQL Server
   package:
@@ -44,6 +46,8 @@
       - "postgresql-contrib-{{ postgresql_major_version }}"
       - "postgresql-client-{{ postgresql_major_version }}"
     state: present
+  tags:
+    - install
 
 - name: Copy pgpass from template
   template:
@@ -52,3 +56,7 @@
     mode: 0600
     owner: "postgres"
     group: "postgres"
+- name: systemctl stop postgres
+  systemd:
+    name: postgresql
+    state: stopped
