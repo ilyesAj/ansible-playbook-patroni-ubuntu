@@ -1,10 +1,9 @@
 scope: "{{postgresql_cluster_name}}-{{postgresql_major_version}}"
-#namespace: "/postgresql-common/"
 name: "{{ansible_hostname}}"
 
 zookeeper:
   hosts:
-  {% for host in {{ groups['zookeeper'] }} %}
+  {% for host in "{{ groups['zookeeper'] }}" %}
      - {{ hostvars[host].inventory_hostname }}:{{dcs_port}}
   {% endfor %}
 
