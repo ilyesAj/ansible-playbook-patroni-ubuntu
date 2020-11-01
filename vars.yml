@@ -19,3 +19,5 @@ haproxy_stats: 7000
 #8008 is the patroni rest api port.
 #If node is running as a master, patroni will respond on request ‘GET /’ with http status code 200, in other case it will return 503.
 #haproxy sends traffic only to the nodes which responding with 200.
+#--------------------------
+node_exporter_version: 1.0.1
