@@ -8,7 +8,7 @@ zookeeper:
   {% endfor %}
 
 restapi:
-  listen: 0.0.0.0:8008
+  listen: 0.0.0.0:{{patroni_api}}
   connect_address: {{ ansible_default_ipv4.address }}:8008
 #  certfile: /etc/ssl/certs/ssl-cert-snakeoil.pem
 #  keyfile: /etc/ssl/private/ssl-cert-snakeoil.key
@@ -50,8 +50,8 @@ bootstrap:
         - replication
 
 postgresql:
-  listen: 0.0.0.0:5432
-  connect_address: {{ ansible_default_ipv4.address }}:5432
+  listen: 0.0.0.0:{{postgresql_port}}
+  connect_address: {{ ansible_default_ipv4.address }}:{{postgresql_port}}
   use_unix_socket: true
   data_dir: {{ postgresql_data_dir_base }}/{{postgresql_major_version}}/{{postgresql_cluster_name}}
   bin_dir: /usr/lib/postgresql/{{postgresql_major_version}}/bin

@@ -18,3 +18,4 @@
     - include: tasks/zookeeper.yml
     - include: tasks/postgresql.yml
     - include: tasks/patroni.yml
+    - include: tasks/haproxy.yml 

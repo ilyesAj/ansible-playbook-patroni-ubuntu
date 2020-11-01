@@ -2,6 +2,8 @@
 dcs: "zookeeper"
 dcs_server: "{{ hostvars['master']['ansible_eth0']['ipv4']['address'] }}"
 dcs_port: "2181"
+postgresql_port: "5432"
+patroni_api: 8008
 postgresql_cluster_name: "test"
 postgresql_major_version: "10"
 postgresql_data_dir_base: "/var/lib/postgresql"
@@ -10,15 +12,10 @@ patroni_replication_pass: "replicator"
 superuser_password: "secret"
 superuser_username: "dba"
 log_directory: "/var/log/postgresql"
-# Password for the postgres superuser. Usually setting a password is
-# discouraged, and socket-based peer authentication to the local postgres
-# instance should be used instead. However, patroni_postgres_pass needs to be
-# set on PostgresSQL 10 and earlier if pg_rewind is to be used to get diverged
-# former primaries back online without a full re-clone.
-patroni_postgres_pass: ""
-# from Postgresql 11, pg_rewind can use a regular user with the appropriate
-# fine-grained permissions. If set, Patroni will setup the user and its
-# permissions. Note: "pg_rewind" is a reserved role and cannot be used.
-patroni_rewind_user: "postgres_rewind"
-patroni_rewind_pass: "postgres_rewind"
-
+#-----------------------
+haproxy_port: 5000
+haproxy_stats: 7000
+#Haproxy sends health-check probes to all patroni nodes it knows
+#8008 is the patroni rest api port.
+#If node is running as a master, patroni will respond on request ‘GET /’ with http status code 200, in other case it will return 503.
+#haproxy sends traffic only to the nodes which responding with 200.

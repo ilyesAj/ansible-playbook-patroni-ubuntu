@@ -14,13 +14,21 @@
   tags:
     - haproxy
 
-- name: Copy HAProxy configuration in place.
+- name: generate HAProxy configuration .
   template:
     src: haproxy.cfg.j2
-    dest: /etc/haproxy/haproxy.cfg
+    dest: files/haproxy.cfg
     mode: 0644
     #validate: haproxy -f %s -c -q
   #notify: restart haproxy
+  delegate_to: localhost
+  tags:
+    - haproxy 
+- name: Copy HAProxy configuration in place.
+  copy:
+    src: files/haproxy.cfg
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
   tags:
     - haproxy
 - name: restart haproxy
