@@ -11,5 +11,3 @@ postgres-2
 pg3 ansible_host=postgres-0 ansible_connection=ssh ansible_user=linuxadmin ansible_ssh_private_key_file=/root/ansible-zookeeper/key ansible_become=yes ansible_become_method=sudo
 pg2 ansible_host=postgres-1 ansible_connection=ssh ansible_user=linuxadmin ansible_ssh_private_key_file=/root/ansible-zookeeper/key ansible_become=yes ansible_become_method=sudo
 pg1 ansible_host=postgres-2 ansible_connection=ssh ansible_user=linuxadmin ansible_ssh_private_key_file=/root/ansible-zookeeper/key ansible_become=yes ansible_become_method=sudo
-[test]
-pg3

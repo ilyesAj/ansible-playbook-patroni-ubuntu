@@ -1,0 +1,4 @@
+---
+- hosts: pgsql
+  roles:
+    - role: postgres-patroni-haproxy

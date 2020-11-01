@@ -56,7 +56,7 @@
 
 - name: Setting up the Node Exporter as a service
   copy:
-    src: files/node_exporter.service
+    src: node_exporter.service
     dest: /etc/systemd/system/node_exporter.service
   tags:
     - node_exporter

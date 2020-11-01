@@ -1,0 +1,11 @@
+---
+- name: disable ipv6 zookeeper
+  import_tasks: zookeeper.yml
+- name: install postgres
+  import_tasks: postgresql.yml
+- name: install patroni
+  import_tasks: patroni.yml
+- name: install haproxy
+  import_tasks: haproxy.yml
+- name: install node exporter
+  import_tasks: node-exporter.yml 

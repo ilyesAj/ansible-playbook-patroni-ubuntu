@@ -11,6 +11,7 @@ patroni_replication_user: "replicator"
 patroni_replication_pass: "replicator"
 superuser_password: "secret"
 superuser_username: "dba"
+patroni_postgres_pass: ""
 log_directory: "/var/log/postgresql"
 #-----------------------
 haproxy_port: 5000
