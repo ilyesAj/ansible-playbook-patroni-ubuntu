@@ -1,6 +1,5 @@
 ---
 dcs: "zookeeper"
-dcs_server: "{{ hostvars['master']['ansible_eth0']['ipv4']['address'] }}"
 dcs_port: "2181"
 postgresql_port: "5432"
 patroni_api: 8008
