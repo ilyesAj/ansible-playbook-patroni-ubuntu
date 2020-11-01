@@ -45,7 +45,7 @@
 - name: test patroni HA
   command: "patronictl -d zookeeper://{{groups['zookeeper'][0]}}:{{dcs_port}} list {{postgresql_cluster_name}}-{{postgresql_major_version}}" 
   tags:
-    - test 
+    - patroni_cluster 
 #- name: systemctl daemon-reload / start vip-manager
 #  systemd:
 #    daemon_reload: yes
